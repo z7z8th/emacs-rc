@@ -12,6 +12,10 @@
   ;; If there is more than one, they won't work right.
  )
 
+(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+(setq-default save-place t)                   ;; activate it for all buffers
+(require 'saveplace)                          ;; get the package
+
 ;; auto-complete
 (add-to-list 'load-path "~/.emacs.d")
 (require 'auto-complete-config)
@@ -20,3 +24,4 @@
 
 (require 'nlinum)
 (global-linum-mode t)
+(setq linum-format "%3d ")
