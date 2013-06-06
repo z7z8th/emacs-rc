@@ -12,12 +12,13 @@
   ;; If there is more than one, they won't work right.
  )
 
+(add-to-list 'load-path "~/.emacs.d")
+
 (require 'saveplace)                          ;; get the package
 (setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
 (setq-default save-place t)                   ;; activate it for all buffers
 
 ;; auto-complete
-(add-to-list 'load-path "~/.emacs.d")
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
@@ -25,3 +26,7 @@
 (require 'nlinum)
 (global-linum-mode t)
 (setq linum-format "%3d ")
+
+(require 'xcscope)
+
+(windmove-default-keybindings)   ;; use Shift+up/down/right/left to jump between windows
