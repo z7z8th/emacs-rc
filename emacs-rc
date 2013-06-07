@@ -12,15 +12,23 @@
   ;; If there is more than one, they won't work right.
  )
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/my-pkgs/")
+
+(when (>= emacs-major-version 24)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+  )
+
+(setq package-load-list '(nlinum auto-complete jedi))
 
 (require 'saveplace)                          ;; get the package
-(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+(setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
 (setq-default save-place t)                   ;; activate it for all buffers
 
 ;; auto-complete
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (ac-config-default)
 
 (require 'nlinum)
@@ -30,3 +38,9 @@
 (require 'xcscope)
 
 (windmove-default-keybindings)   ;; use Shift+up/down/right/left to jump between windows
+
+(show-paren-mode 1)    ; turn on paren match highlighting
+(setq show-paren-style 'expression)   ; highlight entire bracket expression
+
+(recentf-mode 1)
+
