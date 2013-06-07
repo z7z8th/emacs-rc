@@ -44,3 +44,6 @@
 
 (recentf-mode 1)
 
+(global-visual-line-mode 1) ; wrap at word boundary. 1 for on, 0 for off.
+
+(global-hl-line-mode 1) ; turn on highlighting current line
