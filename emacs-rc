@@ -12,15 +12,16 @@
   ;; If there is more than one, they won't work right.
  )
 
-(add-to-list 'load-path "~/.emacs.d")
+(add-to-list 'load-path "~/.emacs.d/my-pkgs")
 
 (require 'saveplace)                          ;; get the package
-(setq save-place-file "~/.emacs.d/saveplace") ;; keep my ~/ clean
+(setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
 (setq-default save-place t)                   ;; activate it for all buffers
 
 ;; auto-complete
 (require 'auto-complete-config)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(setq ac-comphist-file "~/.emacs.d/var/ac-comphist.dat")
 (ac-config-default)
 
 (require 'nlinum)
