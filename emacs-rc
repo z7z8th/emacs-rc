@@ -13,6 +13,8 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
 
+;; (add-to-list 'default-frame-alist '(t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal) ))
+
 (add-to-list 'load-path "~/.emacs.d/my-pkgs/")
 
 (when (>= emacs-major-version 24)
@@ -21,7 +23,14 @@
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   )
 
-(setq package-load-list '(nlinum auto-complete jedi))
+(setq package-load-list '(nlinum auto-complete jedi markdown-mode))
+
+;(autoload 'markdown-mode "markdown-mode"
+;   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
 
 (require 'saveplace)                          ;; get the package
 (setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
@@ -33,6 +42,7 @@
 (setq ac-comphist-file "~/.emacs.d/var/ac-comphist.dat")
 (ac-config-default)
 
+;; line number
 (require 'nlinum)
 (global-linum-mode t)
 (setq linum-format "%3d ")
@@ -48,5 +58,34 @@
 
 (global-visual-line-mode 1) ; wrap at word boundary. 1 for on, 0 for off.
 
-(global-hl-line-mode 1) ; turn on highlighting current line
+;; (global-hl-line-mode 1) ; turn on highlighting current line
+
+;; code indent
+;(setq-default indent-tabs-mode nil)
+;(setq-default tab-width 2)
+
+;; c indent style
+(setq c-default-style "linux"
+          c-basic-offset 4)
+
+(setq-default c-basic-offset 4
+                  tab-width 4
+                  indent-tabs-mode nil)
+;; break long method name and argument to multilines
+(defun my-indent-setup ()
+      (c-set-offset 'arglist-intro '+))
+(add-hook 'java-mode-hook 'my-indent-setup)
+
+;; Python Hook, for note, no effect
+(add-hook 'python-mode-hook
+          (function (lambda ()
+                     (setq indent-tabs-mode nil
+                            tab-width 4))))
+
+;; killing and yanking
+(defun yank-pop-forwards (arg)
+   (interactive "p")
+   (yank-pop (- arg)))
+
+(global-set-key "\M-Y" 'yank-pop-forwards) ; M-Y (Meta-Shift-Y)
 
