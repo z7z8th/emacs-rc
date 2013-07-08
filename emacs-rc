@@ -82,6 +82,9 @@
                      (setq indent-tabs-mode nil
                             tab-width 4))))
 
+(add-hook 'python-mode-hook '(lambda ()
+      (local-set-key (kbd "RET") 'newline-and-indent)))
+
 ;; killing and yanking
 (defun yank-pop-forwards (arg)
    (interactive "p")
