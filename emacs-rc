@@ -32,6 +32,11 @@
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
+(add-to-list 'auto-mode-alist '("emacs-rc\\'" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.emacs\\'" . lisp-mode))
+
+(add-to-list 'auto-mode-alist '("^/etc/nginx/" . nginx-mode))
+
 
 (require 'saveplace)                          ;; get the package
 (setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
