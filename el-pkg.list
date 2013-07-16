@@ -3,5 +3,7 @@ jedi
 markdown-mode
 nlinum
 lua-mode
+nginx-mode
+
 ---
 dic-lookup-w3m
