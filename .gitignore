@@ -1,4 +1,5 @@
 *.elc
 *~
 /var/
-/elpa
+/elpa/
+/auto-save-list/

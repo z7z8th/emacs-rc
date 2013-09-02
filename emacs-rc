@@ -24,7 +24,7 @@
   (package-initialize)
   )
 
-(setq package-load-list '(nlinum auto-complete jedi markdown-mode))
+(setq package-load-list '(nlinum auto-complete markdown-mode))
 
 ;(autoload 'markdown-mode "markdown-mode"
 ;   "Major mode for editing Markdown files" t)
@@ -45,6 +45,7 @@
 ;; auto-complete
 (require 'auto-complete-config)
 ;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+(add-to-list 'ac-dictionary-directories ".emacs.d/elpa/auto-complete-20130724.1750/dict")
 (setq ac-comphist-file "~/.emacs.d/var/ac-comphist.dat")
 (ac-config-default)
 
@@ -81,7 +82,7 @@
                        (if (not (minibufferp (current-buffer)))
                          (auto-complete-mode 1))
                        ))
-(real-global-auto-complete-mode t)
+;(real-global-auto-complete-mode t)
 
 
 ;; line number
@@ -163,3 +164,15 @@
 ;                       :foreground "white" :background "purple"))
 ; (eval-after-load "diff-mode"
 ;   '(update-diff-colors))
+
+;; (load "folding")
+(autoload 'folding-mode          "folding" "Folding mode" t)
+(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+
+(folding-mode-add-find-file-hook)
+(folding-add-to-marks-list 'lua-mode     "-- {{{" "-- }}}" nil t)
+(folding-add-to-marks-list 'ruby-mode    "#{{{" "#}}}" nil t)
+(folding-add-to-marks-list 'php-mode     "//{"  "//}"  nil t)
+(folding-add-to-marks-list 'prolog-mode  "%{{{" "%}}}" nil t)
+(folding-add-to-marks-list 'html-mode    "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
