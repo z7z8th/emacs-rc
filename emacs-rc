@@ -15,6 +15,8 @@
 
 ;; (add-to-list 'default-frame-alist '(t (:family "DejaVu Sans Mono" :foundry "unknown" :slant normal :weight normal :height 98 :width normal) ))
 
+
+;; {{{ Package
 (add-to-list 'load-path "~/.emacs.d/my-pkgs/")
 
 (when (>= emacs-major-version 24)
@@ -25,24 +27,14 @@
   )
 
 (setq package-load-list '(nlinum auto-complete markdown-mode))
-
-;(autoload 'markdown-mode "markdown-mode"
-;   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
-
-(add-to-list 'auto-mode-alist '("emacs-rc\\'" . lisp-mode))
-(add-to-list 'auto-mode-alist '("\\.emacs\\'" . lisp-mode))
-
-(add-to-list 'auto-mode-alist '("^/etc/nginx/" . nginx-mode))
+;; }}}
 
 
 (require 'saveplace)                          ;; get the package
 (setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
 (setq-default save-place t)                   ;; activate it for all buffers
 
-;; auto-complete
+;; {{{ auto-complete
 (require 'auto-complete-config)
 ;; (add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
 (add-to-list 'ac-dictionary-directories ".emacs.d/elpa/auto-complete-20130724.1750/dict")
@@ -83,16 +75,19 @@
                          (auto-complete-mode 1))
                        ))
 ;(real-global-auto-complete-mode t)
-
+;; }}}
 
 ;; line number
 (require 'nlinum)
 (global-linum-mode t)
 (setq linum-format "%3d ")
 
+;; cscope
 (require 'xcscope)
 
+;; {{{ Key
 (windmove-default-keybindings)   ;; use Shift+up/down/right/left to jump between windows
+;; }}}
 
 (show-paren-mode 1)    ; turn on paren match highlighting
 (setq show-paren-style 'expression)   ; highlight entire bracket expression
@@ -103,9 +98,19 @@
 
 ;; (global-hl-line-mode 1) ; turn on highlighting current line
 
-;; code indent
+
+;; {{{ code indent
+
+(defun indent-file (file)
+  "prompt for a file and indent it according to its major mode"
+  (interactive "fWhich file do you want to indent: ")
+  (find-file file)
+  ;; uncomment the next line to force the buffer into a c-mode
+  ;; (c-mode)
+  (indent-region (point-min) (point-max)))
+
 ;(setq-default indent-tabs-mode nil)
-;(setq-default tab-width 2)
+(setq-default tab-width 4)
 
 ;; c indent style
 (setq c-default-style "linux"
@@ -128,14 +133,22 @@
 (add-hook 'python-mode-hook '(lambda ()
       (local-set-key (kbd "RET") 'newline-and-indent)))
 
-;; killing and yanking
+;lua
+(setq lua-indent-level 4)
+
+;; }}}
+
+
+;; {{{ killing and yanking
 (defun yank-pop-forwards (arg)
    (interactive "p")
    (yank-pop (- arg)))
 
 (global-set-key "\M-Y" 'yank-pop-forwards) ; M-Y (Meta-Shift-Y)
+;; }}}
 
-;; Diff
+
+;; {{{ Diff
 (setq diff-switches "--unified=5 --show-c-function")
 (setq vc-git-diff-switches "--unified=5")
 
@@ -164,7 +177,10 @@
 ;                       :foreground "white" :background "purple"))
 ; (eval-after-load "diff-mode"
 ;   '(update-diff-colors))
+;; }}}
 
+
+;; {{{ Folding
 ;; (load "folding")
 (autoload 'folding-mode          "folding" "Folding mode" t)
 (autoload 'turn-off-folding-mode "folding" "Folding mode" t)
@@ -176,3 +192,33 @@
 (folding-add-to-marks-list 'php-mode     "//{"  "//}"  nil t)
 (folding-add-to-marks-list 'prolog-mode  "%{{{" "%}}}" nil t)
 (folding-add-to-marks-list 'html-mode    "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
+;; }}}
+
+
+
+;; {{{ Auto File Mode
+;(autoload 'markdown-mode "markdown-mode"
+;   "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+(add-to-list 'auto-mode-alist '("emacs-rc\\'" . lisp-mode))
+(add-to-list 'auto-mode-alist '("\\.emacs\\'" . lisp-mode))
+
+(add-to-list 'auto-mode-alist '("^/etc/nginx/" . nginx-mode))
+
+(autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+(add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+(add-to-list 'interpreter-mode-alist '("lua" . lua-mode))
+
+;; }}}
+
+;; {{{ hooks of save
+(add-hook 'markdown-mode-hook
+          (lambda ()
+            (when buffer-file-name
+              (add-hook 'after-save-hook
+                        'markdown-export
+                        nil t))))
+;;}}}
