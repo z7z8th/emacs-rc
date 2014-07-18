@@ -23,16 +23,21 @@
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
   (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+  ;;(setq package-load-list '((nlinum t) (auto-complete t) (markdown-mode t) (popup "version")))
   (package-initialize)
   )
 
-(setq package-load-list '(nlinum auto-complete markdown-mode))
 ;; }}}
 
 
 (require 'saveplace)                          ;; get the package
 (setq save-place-file "~/.emacs.d/var/saveplace") ;; keep my ~/ clean
 (setq-default save-place t)                   ;; activate it for all buffers
+
+;; save history
+(setq savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+(setq savehist-file "~/.emacs.d/var/savehist")
+(savehist-mode 1)
 
 ;; {{{ auto-complete
 (require 'auto-complete-config)
@@ -151,19 +156,20 @@
 ;; }}}
 
 
-;; {{{ Folding
+;; ;; {{{ Folding
 ;; (load "folding")
-(autoload 'folding-mode          "folding" "Folding mode" t)
-(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
-(autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
 
-(folding-mode-add-find-file-hook)
-(folding-add-to-marks-list 'lua-mode     "-- {{{" "-- }}}" nil t)
-(folding-add-to-marks-list 'ruby-mode    "#{{{" "#}}}" nil t)
-(folding-add-to-marks-list 'php-mode     "//{"  "//}"  nil t)
-(folding-add-to-marks-list 'prolog-mode  "%{{{" "%}}}" nil t)
-(folding-add-to-marks-list 'html-mode    "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
-;; }}}
+;; (folding-mode-add-find-file-hook)
+;; (folding-add-to-marks-list 'lisp-mode    ";; {{{" ";; }}}" nil t)
+;; (folding-add-to-marks-list 'lua-mode     "-- {{{" "-- }}}" nil t)
+;; (folding-add-to-marks-list 'ruby-mode    "#{{{" "#}}}" nil t)
+;; (folding-add-to-marks-list 'php-mode     "//{"  "//}"  nil t)
+;; (folding-add-to-marks-list 'prolog-mode  "%{{{" "%}}}" nil t)
+;; ;(folding-add-to-marks-list 'html-mode    "<!-- {{{ " "<!-- }}} -->" " -->" nil t)
+;; ;(autoload 'turn-off-folding-mode "folding" "Folding mode" t)
+;; (autoload 'turn-on-folding-mode  "folding" "Folding mode" t)
+;; (autoload 'folding-mode          "folding" "Folding mode" t)
+;; ;; }}}
 
 
 
@@ -192,4 +198,4 @@
               (add-hook 'after-save-hook
                         'markdown-export
                         nil t))))
-;;}}}
+;; }}}
