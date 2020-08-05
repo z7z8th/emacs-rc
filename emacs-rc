@@ -34,7 +34,7 @@
 (global-set-key (kbd "S-C-<down>")  'shrink-window)
 (global-set-key (kbd "S-C-<up>")    'enlarge-window)
 
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
+(if (fboundp 'dired-hide-details-mode) (add-hook 'dired-mode-hook 'dired-hide-details-mode))
 (setq vc-follow-symlinks nil)
 
 ;; ztree
@@ -43,7 +43,7 @@
 ;; {{{ Package
 (add-to-list 'load-path "~/.emacs.d/my-pkgs/")
 
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+(if (boundp 'gnutls-algorithm-priority) (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
